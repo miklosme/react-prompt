@@ -21,9 +21,9 @@ class ReconcilerInstance {
     return this;
   }
 
-  async send() {
+  async send<T>(): Promise<T> {
     const result = await this.config.resolve(this.toString(), this.config);
-    return result;
+    return result as T;
   }
 
   toString(): string {

@@ -30,7 +30,7 @@ prompt.render(
 
 console.log('The prompt:', prompt.toString());
 
-const { type1, type2 } = await prompt.send();
+const { type1, type2 } = await prompt.send<{ type1: string, type2: string }>();
 
 console.log('The two types of AI researchers:');
 console.log('1.', style(type1, ['green']));
