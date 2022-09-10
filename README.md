@@ -7,7 +7,7 @@ Write LLM prompts in React.
 This project uses Bun as JS runtime.
 
 ```sh
-bun run src/001.jsx
+bun run src/001.tsx
 ```
 
 ## License
