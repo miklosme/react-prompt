@@ -1,5 +1,5 @@
 {
-  "name": "react-prompt-2",
+  "name": "react-prompt",
   "version": "0.1.2",
   "dependencies": {
     "@tanstack/react-query": "^4.3.1",
