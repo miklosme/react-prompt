@@ -1,24 +1,15 @@
-# React with Bun runtime
+# React Prompt Reconciler
 
-This is a React project bootstrapped with [bun](https://bun.sh/).
+Write LLM prompts in React.
 
-## Getting Started
+## Usage
 
-### Cloning the repo
+This project uses Bun as JS runtime.
 
 ```sh
-bun create react ./react-bun-app
+bun run src/001.jsx
 ```
 
-### Development
+## License
 
-First, run the development server.
-
-```
-bun dev
-```
-
-Open http://localhost:3000 with your browser to see the result.
-
-You can start editing the page by modifying src/App.jsx. The page auto-updates as you edit the file.
-
+MIT
