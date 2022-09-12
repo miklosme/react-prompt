@@ -1,4 +1,6 @@
 // example: https://github.com/pmndrs/react-three-fiber/blob/master/packages/fiber/src/three-types.ts
+// read: https://www.typescriptlang.org/docs/handbook/jsx.html
+// https://github.com/pmndrs/react-three-fiber/blob/master/docs/tutorials/typescript.mdx
 
 
 declare namespace JSX {
