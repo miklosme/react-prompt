@@ -19,7 +19,7 @@ const prompt = createReconciler({
 });
 
 prompt.render(
-  <model capability="high" temperature="0.8">
+  <model capability="high" temperature={0.8}>
     <question>There are two types of AI researchers.</question>
     <template>
       1. <answer name="type1" />

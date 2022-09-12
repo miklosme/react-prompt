@@ -1,3 +1,4 @@
+import React from 'react';
 import { createReconciler } from './reconciler';
 // import { Client } from '@notionhq/client';
 import { Configuration, OpenAIApi } from 'openai';
@@ -24,11 +25,11 @@ function useTasks() {
 const reconciler = createReconciler({
     models: {
         'text-davinci-002': {
-            desction: 'Most capable GPT-3 model.',
+            description: 'Most capable GPT-3 model.',
             capability: 'high',
         },
         'text-ada-001': {
-            desction: 'Capable of very simple tasks, usually the fastest model in the GPT-3 series, and lowest cost.',
+            description: 'Capable of very simple tasks, usually the fastest model in the GPT-3 series, and lowest cost.',
             capability: 'low',
         },
     },
