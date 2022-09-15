@@ -1,9 +1,9 @@
 import React from 'react';
-import { createReconciler } from './reconciler';
+import ReactPrompt from './reconciler';
 import * as OpenAI from './resolvers/openai';
 import { style } from 'bun-style';
 
-const prompt = createReconciler({
+const prompt = ReactPrompt.createReconciler({
   models: {
     'text-davinci-002': {
       description: 'Most capable GPT-3 model.',
