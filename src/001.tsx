@@ -18,7 +18,7 @@ const prompt = ReactPrompt.createReconciler({
   resolve: OpenAI.resolve,
 });
 
-prompt.render(
+await prompt.render(
   <model capability="high" temperature={0.8}>
     <question>There are two types of AI researchers.</question>
     <template>
@@ -28,7 +28,7 @@ prompt.render(
   </model>,
 );
 
-console.log('The prompt:', prompt.toString());
+// console.log('The prompt:', prompt.toString());
 
 const { type1, type2 } = await prompt.send<{ type1: string, type2: string }>();
 

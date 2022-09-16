@@ -13,7 +13,7 @@ const openai = new OpenAIApi(
 //   });
 // }
 
-export async function resolve(prompt: string, config) {
+export async function resolve({ prompt: string, model }) {
   // fake resolve
   return {
     type1: 'Those who believe that AI is a threat to humanity.',
