@@ -8,21 +8,23 @@
     "bun-style": "^0.3.0",
     "openai": "^3.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-reconciler": "^0.29.0"
+    "react-reconciler": "^0.29.0",
+    "tsx": "^3.9.0"
   },
+  "type": "module",
   "eslintConfig": {
     "extends": [
       "react-app"
     ]
   },
   "devDependencies": {
-    "typescript": "latest",
-    "react-refresh": "0.10.0"
+    "react-refresh": "0.10.0",
+    "typescript": "latest"
   },
   "prettier": {
     "tabWidth": 2,
     "trailingComma": "all",
-    "singleQuote": true
+    "singleQuote": true,
+    "printWidth": 120
   }
 }

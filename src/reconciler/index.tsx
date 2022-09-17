@@ -1,58 +1,29 @@
-import * as React from 'react'
+import * as React from 'react';
 import ReactReconciler from 'react-reconciler';
+import { DefaultEventPriority, ConcurrentRoot } from 'react-reconciler/constants.js';
+import act from './act';
 
-class Node {
-  constructor({ type, props, root = false, text = null }) {
-    this.type = type;
-    this.props = props;
-    this.root = root;
-    this.text = text;
-    this.children = [];
+const REACT_INTERNAL_PROPS = ['ref', 'key', 'children'];
+function getInstanceProps(props: ReactReconciler.Fiber['pendingProps']) {
+  const instanceProps = {};
+
+  for (const key in props) {
+    if (!REACT_INTERNAL_PROPS.includes(key)) instanceProps[key] = props[key];
   }
-  appendChild(child) {
-    this.children.push(child);
-  }
-  removeChild(child) {
-    this.children.splice(this.children.indexOf(child), 1);
-  }
-  insertBefore(child, beforeChild) {
-    this.children.splice(this.children.indexOf(beforeChild), 0, child);
-  }
+
+  return instanceProps;
 }
 
 const reconciler = ReactReconciler({
-  createInstance(type, props) {
-    const el = new Node({ type, props });
-    // console.log(el)
+  createInstance: (type, props) => ({ type, props: getInstanceProps(props), children: [] }),
+  createTextInstance: (value) => ({ type: 'text', props: { value }, children: [] }),
 
-    return el;
-  },
-  createTextInstance(text, rootContainerInstance) {
-    return new Node({ text, props: null });
-  },
-
-  removeChild(container, child) {
-    container.removeChild(child);
-  },
-  appendChild(container, child) {
-    container.appendChild(child);
-    // console.log('appended', container)
-  },
-  appendInitialChild(container, child) {
-    container.appendChild(child);
-    // console.log('appended', container)
-  },
-  appendChildToContainer: (container, child) => {
-    container.appendChild(child);
-    // console.log('appended', container)
-  },
-
-  insertBefore(parent, child, beforeChild) {
-    parent.insertBefore(child, beforeChild);
-  },
-  insertInContainerBefore(container, child, beforeChild) {
-    container.insertBefore(child, beforeChild);
-  },
+  appendInitialChild: (parent, child) => parent.children.push(child),
+  appendChild: (parent, child) => parent.children.push(child),
+  appendChildToContainer: (container, child) => (container.head = child),
+  insertBefore: (parent, child, beforeChild) => parent.children.splice(parent.children.indexOf(beforeChild), 0, child),
+  removeChild: (parent, child) => parent.children.splice(parent.children.indexOf(child), 1),
+  removeChildFromContainer: (container) => (container.head = null),
 
   supportsMutation: true,
   // isPrimaryRenderer: false,
@@ -60,7 +31,6 @@ const reconciler = ReactReconciler({
   // supportsHydration: false,
   // noTimeout: -1,
 
-  removeChildFromContainer: (container, child) => {},
   getRootHostContext: (...args) => {
     // console.log('getRootHostContext', ...args);
     return {};
@@ -83,20 +53,7 @@ const reconciler = ReactReconciler({
     // }
     // return payload;
   },
-  commitUpdate(instance, updatePayload, type, oldProps, newProps, fiber) {
-    // ['className', 'src', 'alt', 'href', 'target', 'rel'].forEach(attr => {
-    //   if (updatePayload[attr]) {
-    //     instance[attr] = updatePayload[attr];
-    //   }
-    // });
-    // if (updatePayload.onClick) {
-    //   instance.removeEventListener('click', oldProps.onClick);
-    //   instance.addEventListener('click', updatePayload.onClick);
-    // }
-    // if (updatePayload.newBgColor) {
-    //   instance.style.backgroundColor = updatePayload.newBgColor;
-    // }
-  },
+  commitUpdate: (instance, _, __, ___, props) => (instance.props = getInstanceProps(props)),
 
   // commitMount(instance, _type, _props, _int) {},
   // getPublicInstance: instance => instance,
@@ -109,7 +66,7 @@ const reconciler = ReactReconciler({
   // unhideInstance(instance, props) {},
   // hideTextInstance() {},
   // unhideTextInstance() {},
-  // getCurrentEventPriority: () => {},
+  getCurrentEventPriority: () => DefaultEventPriority,
   // beforeActiveInstanceBlur: () => {},
   // afterActiveInstanceBlur: () => {},
   detachDeletedInstance: () => {},
@@ -120,12 +77,14 @@ const reconciler = ReactReconciler({
 
 const ReactPrompt = {
   createReconciler: ({ models, resolve }) => {
-    const root = new Node({ root: true });
+    const container = { head: null };
+    const root = reconciler.createContainer(container, ConcurrentRoot, null, false, null, '', console.error, null);
     const self = {
-      // feels like 2011 all over again
-      async render(jsx) {
-        const container = reconciler.createContainer(root, false, false);
-        reconciler.updateContainer(jsx, container, null, null);
+      async render(element: React.ReactNode) {
+        return await act(async () => {
+          reconciler.updateContainer(element, root, null, undefined);
+          return container;
+        });
       },
       toString() {
         return '[prompt ReactPrompt]';

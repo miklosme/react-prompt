@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactPrompt from './reconciler';
+import ReactPrompt, { act } from './reconciler';
 import * as OpenAI from './resolvers/openai';
 import { style } from 'bun-style';
 
@@ -18,7 +18,7 @@ const prompt = ReactPrompt.createReconciler({
   resolve: OpenAI.resolve,
 });
 
-await prompt.render(
+const container = await prompt.render(
   <model capability="high" temperature={0.8}>
     <question>There are two types of AI researchers.</question>
     <template>
@@ -28,7 +28,7 @@ await prompt.render(
   </model>,
 );
 
-// console.log('The prompt:', prompt.toString());
+console.log('The prompt:', container);
 
 const { type1, type2 } = await prompt.send<{ type1: string, type2: string }>();
 
