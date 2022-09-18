@@ -14,6 +14,6 @@ const DocumentTransformer = () => (
   </model>
 );
 
-const reconciler = createReconciler().render(<Game />);
+const reconciler = createReconciler().render(<DocumentTransformer />);
 
 const { dungeon, dialog } = await reconciler.send();

@@ -34,10 +34,11 @@ const ChatBot = () => {
     const [platform, setPlatform] = useState(null);
     return (
         <model capability="high" temperature="0.8">
-            <bot ask="Hello! What type of UI component do you want to make?">
+            <bot>
+                <ask>Hello! What type of UI component do you want to make?</ask>
                 <question>What platform do you want to use?</question>
                 <question>What kind of UI component do you want to make?</question>
-                <definitive>Perfect! I will create a UI component for you, give me a sec...</definitive>
+                <final>Perfect! I will create a UI component for you, give me a sec...</final>
             </bot>
             <human>
                 <category>type</category>
@@ -50,7 +51,7 @@ const ChatBot = () => {
                 <option>Mobile</option>
                 <option>Desktop</option>
 
-                <categroy>color</categroy>
+                <category>color</categroy>
                 <option>primary</option>
                 <option>secondary</option>
             </human>
