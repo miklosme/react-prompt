@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactPrompt from './reconciler';
+import * as ReactPrompt from './reconciler';
 import * as OpenAI from './resolvers/openai';
 import { style } from 'bun-style';
 

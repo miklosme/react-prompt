@@ -14,7 +14,7 @@ function getInstanceProps(props: ReactReconciler.Fiber['pendingProps']) {
   return instanceProps;
 }
 
-const reconciler = ReactReconciler({
+const hostConfig = {
   createInstance: (type, props) => ({ type, props: getInstanceProps(props), children: [] }),
   createTextInstance: (value) => ({ type: 'text', props: { value }, children: [] }),
 
@@ -73,33 +73,46 @@ const reconciler = ReactReconciler({
   // now: performance.now,
   // scheduleTimeout: setTimeout,
   // cancelTimeout: clearTimeout,
-});
-
-const ReactPrompt = {
-  createReconciler: ({ models, resolve }) => {
-    const container = { head: null };
-    const root = reconciler.createContainer(container, ConcurrentRoot, null, false, null, '', console.error, null);
-    const self = {
-      async render(element: React.ReactNode) {
-        return await act(async () => {
-          reconciler.updateContainer(element, root, null, undefined);
-          return container;
-        });
-      },
-      toString() {
-        return '[prompt ReactPrompt]';
-      },
-      async send() {
-        const payload = {
-          prompt: self.toString(),
-          model: 'whatever-model-001',
-        };
-        return await resolve(payload);
-      },
-    };
-
-    return self;
-  },
 };
 
-export default ReactPrompt;
+class ReactPrompt {
+  constructor({ models, resolve }) {
+    this.models = models;
+    this.resolve = resolve;
+    this.reconciler = ReactReconciler(hostConfig);
+    this.container = { head: null };
+    this.root = this.reconciler.createContainer(
+      this.container,
+      ConcurrentRoot,
+      null,
+      false,
+      null,
+      '',
+      console.error,
+      null,
+    );
+  }
+
+  render = async (element: React.ReactNode) => {
+    return await act(async () => {
+      this.reconciler.updateContainer(element, this.root, null, undefined);
+      return this.container;
+    });
+  }
+
+  toString = () => {
+    return '[prompt ReactPrompt]';
+  }
+
+  send = async () => {
+    const payload = {
+      prompt: this.toString(),
+      model: 'whatever-model-001',
+    };
+    return await this.resolve(payload);
+  }
+}
+
+export function createReconciler(config) {
+  return new ReactPrompt(config);
+}
