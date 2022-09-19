@@ -91,17 +91,23 @@ class ReactPrompt {
       console.error,
       null,
     );
+
+    // TODO
+    // this.queue = [];
   }
 
   render = async (element: React.ReactNode) => {
-    return await act(async () => {
+    const result = await act(async () => {
       this.reconciler.updateContainer(element, this.root, null, undefined);
-      return this.container;
+      return this;
     });
+
+    return result;
   }
 
   toString = () => {
-    return '[prompt ReactPrompt]';
+    if (this.container.head === null) throw new Error('No head element found');
+    return JSON.stringify(this.container, null, 2);
   }
 
   send = async () => {
