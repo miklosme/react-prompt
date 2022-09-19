@@ -18,6 +18,8 @@
     ]
   },
   "devDependencies": {
+    "globby": "^13.1.2",
+    "inquirer": "^9.1.2",
     "react-refresh": "0.10.0",
     "typescript": "latest"
   },
