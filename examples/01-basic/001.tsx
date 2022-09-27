@@ -1,6 +1,6 @@
 import React from 'react';
 import * as ReactPrompt from '../../src/reconciler';
-import * as OpenAI from '../resolvers/openai';
+import * as OpenAI from '../_resolvers/openai';
 import { style } from 'bun-style';
 
 const prompt = ReactPrompt.createReconciler({

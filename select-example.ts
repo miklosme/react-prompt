@@ -3,7 +3,7 @@ import inquirer from 'inquirer';
 import path from 'path';
 import { globby } from 'globby';
 
-const paths = await globby(['examples/**/*.{ts,tsx,js,jsx}', '!**/resolvers']);
+const paths = await globby(['examples/**/*.{ts,tsx,js,jsx}', '!**/_*/**']); // exclude folders with _ prefix
 
 const options = paths
   .map((p) => ({
@@ -19,8 +19,10 @@ const options = paths
     return acc;
   }, {});
 
-inquirer
-  .prompt([
+const prompt = inquirer.createPromptModule({ output: process.stderr });
+// const prompt = inquirer.prompt;
+
+prompt([
     {
       type: 'list',
       name: 'example',
