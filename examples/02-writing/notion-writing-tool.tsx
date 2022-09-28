@@ -25,30 +25,6 @@ const articleWriter = ReactPrompt.createReconciler({
   resolve: OpenAI.resolve,
 });
 
-// async function renderPrompt(config, { task, ideas, glossary, examples }) {
-//     const prompt = `
-//
-// Task:
-// ${task}
-//
-// Glossary:
-// ${glossary.map(x => `- ${x.term}: ${x.description}`).join('\n')}
-//
-// Examples:
-// ${examples.map(x => `- ${x.company}: ${x.answer}`).join('\n')}
-//
-// Fragments:
-// ${ideas
-//     .flatMap(splitTextBySentences)
-//     .map(idea => `- ${idea}`)
-//     .join('\n')}
-// Article:
-
-// `.trim();
-
-//     return prompt;
-// }
-
 const Model = ({ config }) => {
   const task = useQueryTask(config);
   const glossary = useQueryGlossary(config);
@@ -60,7 +36,7 @@ const Model = ({ config }) => {
       <list label="Glossary">{glossary}</list>
       <examples>{examples}</examples>
       <list label="Fragments">{ideas}</list>
-      <answer label="Article" />
+      <output label="Article" />
     </model>
   );
 };
@@ -77,7 +53,7 @@ console.log('Title:', style(title, ['green']));
 console.log('Article:', article);
 
 // =======
-// =======
+// utils.js
 // =======
 
 async function getConfig() {

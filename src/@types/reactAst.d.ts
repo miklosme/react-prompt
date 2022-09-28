@@ -20,12 +20,35 @@ declare namespace JSX {
       temperature: number;
       children?: ReactNode;
     };
-    question: {
+    instruction: {
+      label?: string;
       children?: ReactNode;
     };
-    answer: {
+    output: {
+      label?: string;
       children?: ReactNode;
     };
+    list: {
+      label?: string;
+      children?: ReactNode;
+    };
+    bot: {
+      label?: string;
+      children?: ReactNode;
+    };
+    human: {
+      label?: string;
+      children?: ReactNode;
+    };
+    input: {
+      label?: string;
+      children?: ReactNode;
+    };
+    template: {
+      label?: string;
+      children?: ReactNode;
+    };
+
     // Ast: {
     //   ref?: Ref<any>;
     // };

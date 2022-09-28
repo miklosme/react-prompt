@@ -31,9 +31,9 @@ const prompt = ReactPrompt.createReconciler({
 await prompt.render(
   <model capability="high" temperature={0.8}>
     There are two types of AI researchers.
-    <answer>
+    <output>
       1.
-    </answer>
+    </output>
   </model>,
 );
 
